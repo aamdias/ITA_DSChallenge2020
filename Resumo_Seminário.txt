@@ -1,0 +1,102 @@
+Seminário 1
+-> Problema em bater a média
+	Vies entre a base de treinamento e base de teste
+	Pegou aprox 60% dos primeiros voos da aeronave e usou como treinamento e restante no teste. Isso tende a aumentar os tempos para revisao no treinamento e diminuir para o teste.
+	Deixar mais desafiador para descobrir sem um histórico
+	Pode ser tenha tido mais q 1 manutencao dentro do treinamento
+-> Problema em Sensors:
+	Ta duplicado
+	Alguns sensores nao precisam de utilizar essa taxa de amostragem de 1 seg (acontecem dados repetidos por nao haver uma taxa de amostragem de sensores mt elevada)
+-> Nao vai ter um MSE prox de zeros
+-> Olhar os sensores pra ver se tem tendencias:
+	Se nao tem variancia -> nao discrimina -> serve pra porra nenhuma
+	Aplicar media, maximo, fourier (analisar pra cada sensor)
+-> Os tratamento de dados sempre tendem para a média de forma intrínseca (atrapalha neste problema)
+-> EDA do prof: (S1 - 
+	- Estudar por aeronave (média por aeronave fica ruim)
+	- tidyverse para plotar  e manusear
+	- bibli zoo para series temporais (bizu)
+	- Remover NA (usou interpolacao linear (?))
+	- Usou minutos ao inves de ms
+	- Ver quais sensores mudam ao longo dos voos e com isso saber quais importam (WAR_SYS_2 não varia)
+	- No comeco do voo parece que a info nao sao mt confiaveis (olhar entre os quartus)
+################################
+Seminário 2
+-> Participação do BCG Gamma
+-> Disponibilização da ordem dos voos
+	- Sequencia de voos que aconteceram em datas proximas
+-> Olhar os voos de dois a dois
+	- Ver o que aconteceu de um voo para o outro
+	- Ajustar os voos que vc tem menos confianca por meio dos voos que vc tem mais confianca
+	- Primeiro e ultimo voo da sequencia e interpola dos meios
+	- Tentar buscar padrao presente no voo anterior para que se pudesse gerar
+	- Encontrar padrões
+-> Bizu para saber se está viciando os dados ou não:
+	- Dentro do dado de treinamento, dividir os voos com 70% dos voos mais cedos para montar o modelo e o restante dos voos para verificação
+-> Restrições de 15 dias
+#################################
+Seminário 3
+-> Disponibilizao de codigo
+-> Eliminar ruidos dos dados dos sensores
+	- Cortar os resultados que estão mt no comeco ou final de cada voo, estão com mt ruido (0.1 - 0.9)
+-> Bizu de pacote: Tsfresh
+	- Extracao de series temporais
+-> Usar o bizu de fazer o teste com o data do treinamento
+	- Aqui vc consegue fazer umam visão no que está acontecendo
+-> Refazer a definição do RSE
+	- Dar mais peso para os voos que possuem mais info e são mais longos
+	- Mais curtos e/ou menos info -> menos peso
+##################################
+Seminário 4
+-> Link para notebooks do profinho (https://www.kaggle.com/c/data-science-challenge-at-ita-2020/notebooks)
+	- 1: Eliminação dos sensores
+	- 2: Uso do tsfresh
+	- 3: Fusão dos dados add a msg
+	- 4: Dividir os treinamento em teste e trein
+	- 5: Teste no treinamento
+	- 6: Pos processamento
+-> Outro bizu usando o relacionamento de voos seguidos
+	- Pegar a dif no result de sens e/ou msg entre dois voos seguidos e add no voo atual
+-> MLP:
+	- Analise de univariada e ordena as features por meio de um score
+	- Vai mudando o num de feat. Quando n variar mais, ta no tala
+	- Teste do cotovelo
+-> Ajuste apos usar o bizu de teste no trein
+	- Interpolando linearmente
+	- Colocar a dif para o prox no seguinte
+	- Usar apenas sensores e msg como features
+#####################################
+Seminário 5
+-> Mudanca no RSE
+#####################################
+Seminário 6
+-> Os tipos de voos são muito variados. Pode ser que ocorra somente a ligação do motor e a aeronve nem voe
+-> Bizu do JP:
+	- Média, desvia e Transformada de Fourier dos sensores (TSFRESH)
+	- Caracteristicas da freq
+	- Delta em relação ao anterior
+	- Não inspecao regular
+	- Não foram manutenções aleatórias (a priore)
+-> Funções dos sensores
+	- SYS: mais proximas ao componente removido. 
+	- WAC: parametros que afetam grande quant de sist a aero (rotacao do motor)
+	- AMB: variaveis ambientais (T, P e Altura)
+-> Alguns sens ou msg sao relacionados. Basta a parada de um componente ou precisa dos dois para que haja maint?
+	- Basta um !
+######################################
+Seminário 6
+-> Cuidado que tem score overfitado
+-> Uso do aprendizado semisupervisionado
+	- Aparenta ser bastante promissor
+	- Dar uma olhada
+-> Sobre as msg
+	- Trabalhou pouco sobre isso
+	- A msm msg pode significar algo dif dependendo do momento do voo
+	- Ir incorporando aos poucos a msg como feature
+-> Otimização de grafo
+######################################
+Seminário 7
+-> Jeito maluco que o profinho flw (tendi PN)
+	- Eh uma parada de semisupervisionado
+-> Dataset msg mt ruim (sepa vamo cagar)
+-> 
